@@ -11,6 +11,8 @@
 
 	public class GameManager : Manager<GameManager>
 	{
+
+
         [SerializeField]
         private GameObject FPSController;
 
