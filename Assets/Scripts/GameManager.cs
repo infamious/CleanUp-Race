@@ -36,6 +36,7 @@
 		}
 		#endregion
 
+        
 
 		#region Score
 		private float m_Score;
