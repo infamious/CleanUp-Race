@@ -28,6 +28,12 @@ public class GameStatisticsChangedEvent : SDD.Events.Event
 	public float eBestScore { get; set; }
 	public float eScore { get; set; }
 	public int eNLives { get; set; }
+	public int eNWaste { get; set; }
+	public float eTimer { get; set; }
+}
+
+public class ViderDecheterieEvent : SDD.Events.Event
+{
 }
 #endregion
 
@@ -53,5 +59,9 @@ public class QuitButtonClickedEvent : SDD.Events.Event
 public class ScoreItemEvent : SDD.Events.Event
 {
 	public float eScore;
+}
+public class WasteItemEvent : SDD.Events.Event
+{
+	public int eWaste;
 }
 #endregion
