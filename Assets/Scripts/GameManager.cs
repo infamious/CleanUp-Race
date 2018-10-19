@@ -11,8 +11,13 @@
 
 	public class GameManager : Manager<GameManager>
 	{
-		#region Game State
-		private GameState m_GameState;
+
+
+        [SerializeField]
+        private GameObject FPSController;
+
+        #region Game State
+        private GameState m_GameState;
 		public bool IsPlaying { get { return m_GameState == GameState.gamePlay; } }
 		#endregion
 
@@ -32,14 +37,39 @@
 		void SetNLives(int nLives)
 		{
 			m_NLives = nLives;
-			EventManager.Instance.Raise(new GameStatisticsChangedEvent() { eBestScore = BestScore, eScore = m_Score, eNLives = m_NLives});
+			EventManager.Instance.Raise(new GameStatisticsChangedEvent() {
+                eBestScore = BestScore, eScore = m_Score, eNLives = m_NLives, eNWaste = m_NWaste, eTimer = m_Timer
+            });
 		}
-		#endregion
+        #endregion
 
-        
+        #region Timer
+        [SerializeField]
+        private float m_Timer = 30.0f;
+        public float Timer
+        {
+            get { return m_Timer; }
+            set
+            {
+                m_Timer = value;
+            }
+        }
+        #endregion
 
-		#region Score
-		private float m_Score;
+        #region Waste
+        private int m_NWaste;
+        public int NWaste
+        {
+            get { return m_NWaste; }
+            set
+            {
+                m_NWaste = value;
+            }
+        }
+        #endregion
+
+        #region Score
+        private float m_Score;
 		public float Score
 		{
 			get { return m_Score; }
@@ -61,12 +91,25 @@
 			SetScore(m_Score + increment);
 		}
 
+        void IncrementWaste(int increment)
+		{
+			SetWaste(m_NWaste + increment);
+		}
+
 		void SetScore(float score, bool raiseEvent = true)
 		{
 			Score = score;
 
 			if (raiseEvent)
-				EventManager.Instance.Raise(new GameStatisticsChangedEvent() { eBestScore = BestScore, eScore = m_Score, eNLives = m_NLives });
+				EventManager.Instance.Raise(new GameStatisticsChangedEvent() { eBestScore = BestScore, eScore = m_Score, eNLives = m_NLives, eNWaste = m_NWaste, eTimer = m_Timer });
+		}
+
+        void SetWaste(int waste, bool raiseEvent = true)
+		{
+			NWaste = waste;
+
+			if (raiseEvent)
+				EventManager.Instance.Raise(new GameStatisticsChangedEvent() { eBestScore = BestScore, eScore = m_Score, eNLives = m_NLives, eNWaste = m_NWaste, eTimer = m_Timer });
 		}
 		#endregion
 
@@ -90,9 +133,9 @@
 			EventManager.Instance.AddListener<EscapeButtonClickedEvent>(EscapeButtonClicked);
 			EventManager.Instance.AddListener<QuitButtonClickedEvent>(QuitButtonClicked);
 
-			//Score Item
-			EventManager.Instance.AddListener<ScoreItemEvent>(ScoreHasBeenGained);
-		}
+            //Score Item
+            EventManager.Instance.AddListener<ScoreItemEvent>(ScoreHasBeenGained);
+        }
 
 		public override void UnsubscribeEvents()
 		{
@@ -124,7 +167,9 @@
 		void InitNewGame(bool raiseStatsEvent = true)
 		{
 			SetScore(0);
-		}
+            Timer = 30.0f;
+            NWaste = 0;
+        }
 		#endregion
 
 		#region Callbacks to events issued by Score items
@@ -133,10 +178,16 @@
 			if (IsPlaying)
 				IncrementScore(e.eScore);
 		}
-		#endregion
 
-		#region Callbacks to Events issued by MenuManager
-		private void MainMenuButtonClicked(MainMenuButtonClickedEvent e)
+        private void WasteHasBeenGained(WasteItemEvent e)
+        {
+            if (IsPlaying)
+                IncrementWaste(e.eWaste);
+        }
+        #endregion
+
+        #region Callbacks to Events issued by MenuManager
+        private void MainMenuButtonClicked(MainMenuButtonClickedEvent e)
 		{
 			Menu();
 		}
@@ -176,8 +227,9 @@
 			InitNewGame();
 			SetTimeScale(1);
 			m_GameState = GameState.gamePlay;
-
-			if (MusicLoopsManager.Instance) MusicLoopsManager.Instance.PlayMusic(Constants.GAMEPLAY_MUSIC);
+            FPSController.SetActive(true);
+            
+            if (MusicLoopsManager.Instance) MusicLoopsManager.Instance.PlayMusic(Constants.GAMEPLAY_MUSIC);
 			EventManager.Instance.Raise(new GamePlayEvent());
 		}
 
@@ -206,7 +258,25 @@
 			EventManager.Instance.Raise(new GameOverEvent());
 			if(SfxManager.Instance) SfxManager.Instance.PlaySfx2D(Constants.GAMEOVER_SFX);
 		}
-		#endregion
-	}
+        #endregion
+
+        public void Update()
+        {
+            if (!IsPlaying) return;
+
+            FlowTimer();
+        }
+
+        private void FlowTimer()
+        {
+            Timer -= Time.deltaTime;
+            if (Timer <= 0) {
+                EventManager.Instance.Raise(new GameOverEvent());
+                Timer = 0f;
+            }
+
+            EventManager.Instance.Raise(new GameStatisticsChangedEvent() { eBestScore = BestScore, eScore = m_Score, eNLives = m_NLives, eNWaste = m_NWaste, eTimer = m_Timer });
+        }
+    }
 }
 

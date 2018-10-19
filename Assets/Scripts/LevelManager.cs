@@ -10,6 +10,8 @@ namespace STUDENT_NAME
 
 	public class LevelManager : Manager<LevelManager>
 	{
+        //private int m_Objectif
+
 		#region Manager implementation
 		protected override IEnumerator InitCoroutine()
 		{
