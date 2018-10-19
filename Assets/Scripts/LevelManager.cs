@@ -10,7 +10,8 @@ namespace STUDENT_NAME
 
 	public class LevelManager : Manager<LevelManager>
 	{
-        //private int m_Objectif
+        [SerializeField]
+        private int m_ObjectifLvl1 = 15;
 
 		#region Manager implementation
 		protected override IEnumerator InitCoroutine()
@@ -22,7 +23,9 @@ namespace STUDENT_NAME
 		public override void SubscribeEvents()
 		{
 			base.SubscribeEvents();
-		}
+            //Decheterie
+            EventManager.Instance.AddListener<ViderDecheterieEvent>(GestionNiveauDechets);
+        }
 
 		public override void UnsubscribeEvents()
 		{
@@ -36,5 +39,10 @@ namespace STUDENT_NAME
 		protected override void GameMenu(GameMenuEvent e)
 		{
 		}
-	}
+
+        private void GestionNiveauDechets(ViderDecheterieEvent e)
+        {
+
+        }
+    }
 }
