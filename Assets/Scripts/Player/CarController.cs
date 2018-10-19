@@ -12,39 +12,34 @@ public class CarController : MonoBehaviour
     [SerializeField] private int Brake = 10000;
     [SerializeField] private float Speed;
     [SerializeField] private float CoefAcceleration = 10f;
+    [SerializeField] private float maxAngle;
+    [SerializeField] private Rigidbody rb_car;
 
     public void Update()
     {
 
         Debug.Log(OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch));
-        Debug.Log(Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime);
-
         //Acceleration 
 
-        if(Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") > 0 || true)
           
         m_BackLeft.brakeTorque = 0;
         m_BackRight.brakeTorque = 0;
-        //m_BackLeft.motorTorque = Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
-        //m_BackRight.motorTorque = 1000 +  Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
-        m_BackLeft.motorTorque = 1000 * Torque * CoefAcceleration * Time.deltaTime;
-        m_BackRight.motorTorque = 1000 * Torque * CoefAcceleration * Time.deltaTime;
+        m_BackLeft.motorTorque = Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
+        m_BackRight.motorTorque = Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
+        rb_car.AddForce(0, 0, m_BackLeft.motorTorque = Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime, ForceMode.VelocityChange);
+        //m_BackLeft.motorTorque = 1000 * Torque * CoefAcceleration * Time.deltaTime;
+        //m_BackRight.motorTorque = 1000 * Torque * CoefAcceleration * Time.deltaTime;
 
-        if (Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") <= 0)
-        {
-            m_BackLeft.brakeTorque = 0;
-            m_BackRight.brakeTorque = 0;
-            m_BackLeft.motorTorque = Brake* CoefAcceleration * Time.deltaTime;
-            m_BackRight.motorTorque = Brake * Torque * CoefAcceleration * Time.deltaTime;
-        }
+        
+        var postionTouch = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch).y;
+        m_FrontLeft.steerAngle = -1 * (maxAngle * postionTouch);
+        m_FrontRight.steerAngle = -1 * maxAngle * postionTouch;
 
 
 
-        //Deceleration
 
-
-            //https://www.youtube.com/watch?v=uCM6VBS7tDo
-            //Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical")
+        //https://www.youtube.com/watch?v=uCM6VBS7tDo
+        //Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical")
 
     }
 }

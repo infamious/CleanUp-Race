@@ -212,8 +212,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 4.7557383, z: 20}
-  m_Center: {x: 0, y: -3, z: 0}
+  m_Size: {x: 20, y: 5.3785615, z: 20}
+  m_Center: {x: 0, y: -2.6885905, z: 0}
 --- !u!23 &882611009
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 882611007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 885, y: -32, z: 577}
+  m_LocalPosition: {x: 725, y: -29, z: 581}
   m_LocalScale: {x: 300, y: 300, z: 300}
   m_Children: []
   m_Father: {fileID: 0}
@@ -272,6 +272,11 @@ Transform:
 --- !u!146 &888255304 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 146379666690920928, guid: 92fcfd990ef41a84aa5da8da211ea712,
+    type: 2}
+  m_PrefabInternal: {fileID: 1499684963}
+--- !u!54 &1055279444 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 54736936615354668, guid: 92fcfd990ef41a84aa5da8da211ea712,
     type: 2}
   m_PrefabInternal: {fileID: 1499684963}
 --- !u!1001 &1499684963
@@ -372,7 +377,7 @@ Prefab:
     - target: {fileID: 114649442881693598, guid: 92fcfd990ef41a84aa5da8da211ea712,
         type: 2}
       propertyPath: Torque
-      value: 30000
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 114649442881693598, guid: 92fcfd990ef41a84aa5da8da211ea712,
         type: 2}
@@ -381,7 +386,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1337138564892148, guid: 92fcfd990ef41a84aa5da8da211ea712, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1256576957246228, guid: 92fcfd990ef41a84aa5da8da211ea712, type: 2}
       propertyPath: m_IsActive
@@ -390,12 +395,22 @@ Prefab:
     - target: {fileID: 114649442881693598, guid: 92fcfd990ef41a84aa5da8da211ea712,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1701850263772546, guid: 92fcfd990ef41a84aa5da8da211ea712, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114649442881693598, guid: 92fcfd990ef41a84aa5da8da211ea712,
+        type: 2}
+      propertyPath: maxAngle
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649442881693598, guid: 92fcfd990ef41a84aa5da8da211ea712,
+        type: 2}
+      propertyPath: rb_car
+      value: 
+      objectReference: {fileID: 1055279444}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92fcfd990ef41a84aa5da8da211ea712, type: 2}
   m_IsPrefabAsset: 0
@@ -449,7 +464,7 @@ Prefab:
     - target: {fileID: 114469140944679984, guid: 68480a01e4a00ab45b3d746ae2fc86ee,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1969741288359244, guid: 68480a01e4a00ab45b3d746ae2fc86ee, type: 2}
       propertyPath: m_IsActive
