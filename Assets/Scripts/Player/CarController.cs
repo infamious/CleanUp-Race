@@ -32,6 +32,10 @@ public class CarController : MonoBehaviour
 
         
         var postionTouch = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch).y;
+        //m_BackLeft.steerAngle =  (maxAngle * postionTouch);
+        //m_BackRight.steerAngle =  (maxAngle * postionTouch);
+
+        //rb_car.velocity = new Vector3(0, 0, -1 * (maxAngle * postionTouch));
         m_FrontLeft.steerAngle = -1 * (maxAngle * postionTouch);
         m_FrontRight.steerAngle = -1 * maxAngle * postionTouch;
 
