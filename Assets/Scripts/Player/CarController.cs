@@ -21,14 +21,16 @@ public class CarController : MonoBehaviour
 
         //Acceleration 
 
-        if(Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") > 0)
+        if(Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") > 0 || true)
           
         m_BackLeft.brakeTorque = 0;
         m_BackRight.brakeTorque = 0;
-        m_BackLeft.motorTorque = Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
-        m_BackRight.motorTorque = 1000 +  Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
+        //m_BackLeft.motorTorque = Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
+        //m_BackRight.motorTorque = 1000 +  Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") * Torque * CoefAcceleration * Time.deltaTime;
+        m_BackLeft.motorTorque = 1000 * Torque * CoefAcceleration * Time.deltaTime;
+        m_BackRight.motorTorque = 1000 * Torque * CoefAcceleration * Time.deltaTime;
 
-        if(Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") <= 0)
+        if (Input.GetAxis("Oculus_CrossPlatform_PrimaryThumbstickVertical") <= 0)
         {
             m_BackLeft.brakeTorque = 0;
             m_BackRight.brakeTorque = 0;

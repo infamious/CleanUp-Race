@@ -1,35 +1,29 @@
-﻿namespace STUDENT_NAME
-{
-	using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-	public class CameraController : SimpleGameStateObserver
+public class CameraController : MonoBehaviour {
+	[SerializeField] Transform target;
+	Vector3 camDesiredTarget;
+	float maxDistance = 15f;
+
+	void LateUpdate()
 	{
-		[SerializeField] Transform m_Target;
-		Transform m_Transform;
-		Vector3 m_InitPosition;
+		transform.position = target.position;
+		Quaternion targetRotation = Quaternion.Euler(0,target.rotation.eulerAngles.y,0);
+		transform.rotation = targetRotation;
+		transform.Translate(new Vector3(0,6,-maxDistance));
 
-		void ResetCamera()
+		RaycastHit hit;
+		var camVector = transform.position-target.position;
+		Ray ray = new Ray(target.position,camVector);
+		if (Physics.Raycast(ray,out hit,maxDistance+0.5f))
 		{
-			m_Transform.position = m_InitPosition;
+			transform.position = hit.point + hit.normal;
 		}
 
-		protected override void Awake()
-		{
-			base.Awake();
-			m_Transform = transform;
-			m_InitPosition = m_Transform.position;
-		}
-
-		void Update()
-		{
-			if (!GameManager.Instance.IsPlaying) return;
-
-			// TO DO
-		}
-
-		protected override void GameMenu(GameMenuEvent e)
-		{
-			ResetCamera();
-		}
+		var rot = transform.rotation.eulerAngles;
+		rot.x = Vector3.Angle(target.position - transform.position, transform.forward);
+		transform.rotation = Quaternion.Euler(rot);
+		transform.Translate(Vector3.forward*0.5f);
 	}
 }
